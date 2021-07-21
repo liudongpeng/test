@@ -59,7 +59,7 @@ int main()
 			printf("b");
 		}
 
-		if(S_IRUSR)
+		if(S_IRUSR & st.st_mode)
 		{
 			printf("r");
 		}
@@ -67,7 +67,7 @@ int main()
 		{
 			printf("-");
 		}
-		if(S_IWUSR)
+		if(S_IWUSR & st.st_mode)
 		{
 			printf("w");
 		}
@@ -75,7 +75,7 @@ int main()
 		{
 			printf("-");
 		}
-		if(S_IXUSR)
+		if(S_IXUSR & st.st_mode)
 		{
 			printf("x");
 		}
@@ -84,7 +84,7 @@ int main()
 			printf("-");
 		}
 
-		if(S_IRGRP)
+		if(S_IRGRP & st.st_mode)
 		{
 			printf("r");
 		}
@@ -92,7 +92,7 @@ int main()
 		{
 			printf("-");
 		}
-		if(S_IWGRP)
+		if(S_IWGRP & st.st_mode)
 		{
 			printf("w");
 		}
@@ -100,7 +100,7 @@ int main()
 		{
 			printf("-");
 		}
-		if(S_IXGRP)
+		if(S_IXGRP & st.st_mode)
 		{
 			printf("x");
 		}
@@ -109,7 +109,7 @@ int main()
 			printf("-");
 		}
 
-		if(S_IROTH)
+		if(S_IROTH & st.st_mode)
 		{
 			printf("r");
 		}
@@ -117,7 +117,7 @@ int main()
 		{
 			printf("-");
 		}
-		if(S_IWOTH)
+		if(S_IWOTH & st.st_mode)
 		{
 			printf("w");
 		}
@@ -125,7 +125,7 @@ int main()
 		{
 			printf("-");
 		}
-		if(S_IXOTH)
+		if(S_IXOTH & st.st_mode)
 		{
 			printf("x ");
 		}
@@ -159,13 +159,23 @@ int main()
 
 		if(S_ISDIR(st.st_mode))
 		{
-			printf("\033[34m%s\033[0m\n", ptr->d_name);
-		}
-		else
-		{
-			printf("%s\n", ptr->d_name);
+				printf("\033[34m%s\033[0m\n", ptr->d_name);
 		}
 
+		if(S_ISREG(st.st_mode))
+		{
+			if((S_IXUSR & st.st_mode) || (S_IXGRP & st.st_mode) 
+				|| (S_IXOTH & st.st_mode))
+			{
+				printf("\033[32m%s\033[0m\n", ptr->d_name);
+			}
+			else
+			{
+				printf("%s\n", ptr->d_name);
+			}
+
+		}
+		
 		count++;
 	}
 
